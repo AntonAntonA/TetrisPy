@@ -1,35 +1,57 @@
 import tkinter as tk
+import time
 
 class App(tk.Tk):
+    _draw_time = 33 # интервал в мс с которым обновляется картинка на экране
+
     def __init__(self):
         super().__init__()
-        frame = tk.Frame(self, bg='green', height=100, width=100)
-        frame.bind('<Right>', self.event_handler)
-        frame.bind('<Left>', self.event_handler)
-        frame.bind('<Up>', self.event_handler)
-        frame.bind('<Down>', self.event_handler)
 
-        frame.bind('<Enter>', self.event_handler)
-        frame.pack(padx=50, pady=50)
+        self.set_FPS(30)
 
-    def event_handler(self, event):
-        position = "(x={}, y={})".format(event.x, event.y)
-        print(event.type, 'event', position)
+        _canvas = tk.Canvas(self, width=500, height=500, bd=0, highlightthickness=0)
+        _canvas.pack()
+
+        self.after(self._draw_time, self.game_loop)
+        self.update()
+
+        _canvas.bind_all('<Key>', self.user_input_handler)
+
+    def set_FPS(self, FPS: int):
+        self._draw_time = int(1000 / FPS)
+
+    def user_input_handler(self, event):
+        print(event.type, 'event')
+
+    def game_loop(self):
+        print(1)
+        self.after(self._draw_time, self.game_loop)
 
 if __name__ == "__main__":
     app = App()
     app.mainloop()
 
 
-tk = Tk()
-canvas = Canvas(tk, width=500, height=500, bd=0, highlightthickness=0)
-canvas.pack()
-tk.update()
+#Для справки
 
-def on_arrows(event):
-    print('Key pressed: ', event.keysym)
+# frame = tk.Frame(self, bg='green', height=100, width=100)
+        # frame.bind('<Right>', self.event_handler)
+        # frame.bind('<Left>', self.event_handler)
+        # frame.bind('<Up>', self.event_handler)
+        # frame.bind('<Down>', self.event_handler)
+        #
+        # frame.bind('<Enter>', self.event_handler)
+        # frame.pack(padx=50, pady=50)
 
-canvas.bind_all('<Key>', on_arrows)
-tk.mainloop()
+# tk = Tk()
+# canvas = Canvas(tk, width=500, height=500, bd=0, highlightthickness=0)
+# canvas.pack()
+# tk.update()
+#
+# def on_arrows(event):
+#     print('Key pressed: ', event.keysym)
+#
+# canvas.bind_all('<Key>', on_arrows)
+# tk.mainloop()
 
 
