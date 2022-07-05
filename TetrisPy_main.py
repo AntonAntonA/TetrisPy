@@ -16,15 +16,16 @@ class App(tk.Tk):
         self.update()
 
         _canvas.bind_all('<Key>', self.user_input_handler)
+        _canvas.bind_all('<KeyRelease>', self.user_input_handler)
 
     def set_FPS(self, FPS: int):
         self._draw_time = int(1000 / FPS)
 
     def user_input_handler(self, event):
-        print(event.type, 'event')
+        print(event.type)
 
     def game_loop(self):
-        print(1)
+
         self.after(self._draw_time, self.game_loop)
 
 if __name__ == "__main__":
