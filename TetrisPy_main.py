@@ -1,20 +1,24 @@
 import tkinter as tk
 import time
+import UserInput
 
 class App(tk.Tk):
     _draw_time = 33 # интервал в мс с которым обновляется картинка на экране
+    user_input: UserInput = UserInput()
 
     def __init__(self):
         super().__init__()
 
         self.set_FPS(30)
 
+        #TODO: Получить размеры экрана и сделать окно высотой в экран и щириной в половину экрана
         _canvas = tk.Canvas(self, width=500, height=500, bd=0, highlightthickness=0)
         _canvas.pack()
 
         self.after(self._draw_time, self.game_loop)
         self.update()
 
+        #TODO: разобраться как назначить обработку событий на нажатие определенных кнопок
         _canvas.bind_all('<Key>', self.user_input_handler)
         _canvas.bind_all('<KeyRelease>', self.user_input_handler)
 
@@ -25,6 +29,26 @@ class App(tk.Tk):
         print(event.type)
 
     def game_loop(self):
+        # Создаем новую случайную фигуру, если на экране нет падающих фигур
+        self.create_new_figure()
+
+        # Проверяем, ввел ли пользователь что-то. Если ввел, то передаем этот ввод падающей фигуре
+        if self.user_input.is_user_input_valid() == True:
+            #TODO:
+            return
+
+        # Проверяем, не оказалась ли фигура за пределами экрана из-за пользовательского ввода.
+        # Если оказалась, то откатываем ее положение назад
+
+        # Перемещаем фигуру вниз
+
+        # Проверяем, не достигла ли фигура дна.
+        # Если достигла:
+        #       Проверяем не выполняется ли условие на проигрыш
+        #       Помещаем фигуру в общий набор кубиков на дне
+        #       Удаляем заполненные линии, добавляем игроку очки
+        # Иначе:
+        #        Идем на следующую итерацию игрового цикла
 
         self.after(self._draw_time, self.game_loop)
 
