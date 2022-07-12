@@ -1,20 +1,51 @@
 class Brick:
-    _x = 0
-    _y = 0
-    _width = 0
-    _height = 0
-    _color = 0 #TODO: код цвета
+    _x = 0.
+    _y = 0.
+    _width = 1.
+    _height = 1.
+    _color = 'red'
 
-    def __init__(self, x: int = 0, y: int = 0, width: int = 10, height: int = 10, color = 0):
+    def __init__(self, x: float = 0., y: float = 0., width: float = 1., height: float = 1., color = 'red'):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.color = color
 
-    def draw(self):
-        # TODO: реализовать
 
+    def collide_test_with_brick(self, second_brick):
+        # Если хоть одна из точек второго прямоугольника попадает внутрь, то столкновение есть
+        for point in second_brick.get_points():
+            if self.is_point_inside(point[0], point[1]):
+                return True
+        else:
+            return False
+
+    # Нумерация точек идет от верхнего левого угла по часовой стрелке
+    def get_points(self):
+        return [[self._x, self._y],
+                [self._x + self._width, self._y],
+                [self._x + self._width, self._y + self._height],
+                [self._x, self._y + self._height]]
+
+    def is_point_inside(self, x: float, y: float):
+        if self._x <= x <= (self._x + self._width) \
+                and self._y <= y <= (self._y + self._height):
+            return True
+        else:
+            return False
+
+    def is_brick_out_of_scene(self, scene_width: float, scene_height: float):
+        if self._x < 0.:
+            return True
+        elif self._x + self._width > scene_width:
+            return True
+        elif self._y < 0.:
+            return True
+        elif self._y + self._height > scene_height:
+            return True
+        else:
+            return False
 
     @property
     def x(self):
@@ -65,6 +96,6 @@ class Brick:
         return self._color
 
     @color.setter
-    def height(self, val):
+    def color(self, val):
         # TODO: сделать проверку ошибок
         self._color = val

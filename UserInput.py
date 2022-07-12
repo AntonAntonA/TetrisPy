@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 class UserInput:
     __RIGHT_RELEASED = 1
     __LEFT_RELEASED = 2
@@ -16,13 +17,12 @@ class UserInput:
 
     def is_user_input_valid(self):
         if (self.__user_input == self.__RIGHT_RELEASED or
-            self.__user_input == self.__LEFT_RELEASED or
-            self.__user_input == self.__DOWN_PRESSED or
-            self.__user_input == self.__UP_RELEASED):
+                self.__user_input == self.__LEFT_RELEASED or
+                self.__user_input == self.__DOWN_PRESSED or
+                self.__user_input == self.__UP_RELEASED):
             return True
         else:
             return False
-
 
     @property
     def user_input(self):
@@ -30,7 +30,7 @@ class UserInput:
 
     @user_input.setter
     def user_input(self, key: int):
-        #TODO: пока что делаем ввод без проверок
+        # TODO: пока что делаем ввод без проверок
         __user_input = key
 
     @property
