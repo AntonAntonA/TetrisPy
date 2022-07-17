@@ -52,11 +52,8 @@ class Brick:
         return self._x
 
     @x.setter
-    def x(self, val):
-        if val < 0:
-            self._x = 0
-        else:
-            self._x = val
+    def x(self, val: float):
+        self._x = val
 
     @property
     def y(self):
@@ -64,10 +61,7 @@ class Brick:
 
     @y.setter
     def y(self, val):
-        if val < 0:
-            self._y = 0
-        else:
-            self._y = val
+        self._y = val
 
     @property
     def width(self):
