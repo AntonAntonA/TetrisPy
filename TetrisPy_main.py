@@ -1,11 +1,9 @@
 import tkinter as tk
 import time
-import UserInput
 from FigureShape import FigureShape
 
 class App(tk.Tk):
     draw_time = 0  # интервал в мс с которым обновляется картинка на экране
-    user_input: UserInput = None
 
     # Глобальные настройки игры
     brick_width = 1.
