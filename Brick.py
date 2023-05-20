@@ -29,8 +29,8 @@ class Brick:
                 [self._x, self._y + self._height]]
 
     def is_point_inside(self, x: float, y: float):
-        if self._x <= x <= (self._x + self._width) \
-                and self._y <= y <= (self._y + self._height):
+        if self._x < x < (self._x + self._width) \
+                and self._y < y < (self._y + self._height):
             return True
         else:
             return False
@@ -46,6 +46,20 @@ class Brick:
             return True
         else:
             return False
+
+    def is_brick_on_bottom(self, scene_height:float):
+        if self._y + self._height >= scene_height:
+            return True
+        else:
+            return False
+
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, color_val):
+        self._color = color_val
 
     @property
     def x(self):

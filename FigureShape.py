@@ -1,5 +1,12 @@
 from Brick import Brick
 
+
+class FigureState:
+    def __init__(self, x, y, pose):
+        self.pose = pose
+        self.x = x
+        self.y = y
+
 class FigureShape:
     __pose_count: int = 0 # количество вращательных позиций, доступных фигуре
     __cur_pose: int = 0 # текущая вращательная позиция
@@ -9,7 +16,9 @@ class FigureShape:
     def __init__(self, shape_type: int, x: float, y: float, brick_width: float, brick_height: float, rotate_count: int,
                  speed: list):
         #TODO: реализовать
+        figure_color = ''
         if shape_type == 0: # т-shape
+            figure_color = 'red'
             self.__poses = [[Brick(0., 0.), Brick(brick_width, 0.), Brick(2.*brick_width, 0.),
                                 Brick(brick_width, brick_height)],
                             [Brick(0., 0.), Brick(brick_width, 0.), Brick(brick_width, -brick_height),
@@ -21,26 +30,32 @@ class FigureShape:
                             ]
 
         elif shape_type == 1: # square shape
+            figure_color = 'blue'
             self.__poses = [[Brick(0., 0.), Brick(brick_width, 0.), \
                            Brick(0., brick_height), Brick(brick_width, brick_height)]]
 
         elif shape_type == 2: # z-shape
+            figure_color = 'yellow'
             self.__poses = [[Brick(0., 0.), Brick(brick_width, 0.), \
                            Brick(0. + brick_width, brick_height), Brick(2.*brick_width, brick_height)]]
 
         elif shape_type == 3: # s-shape
+            figure_color = 'orange'
             self.__poses = [[Brick(brick_width, 0.), Brick(2.*brick_width, 0.), \
                            Brick(0., brick_height), Brick(brick_width, brick_height)]]
 
         elif shape_type == 4: # Г - shape
+            figure_color = 'green'
             self.__poses = [[Brick(0., 0.), Brick(brick_width, 0.), \
                            Brick(0., brick_height), Brick(0., 2.*brick_height), ]]
 
         elif shape_type == 5: # mirrored Г-shape
+            figure_color = 'purple'
             self.__poses = [[Brick(0., 0.), Brick(brick_width, 0.), \
                            Brick(brick_width, brick_height), Brick(brick_width, 2. * brick_height)]]
 
         elif shape_type == 6:  # |-shape
+            figure_color = 'cyan'
             self.__poses = [[Brick(0., 0.), Brick(0., brick_height), \
                             Brick(0., 2.*brick_height), Brick(0., 3.*brick_height)]]
 
@@ -49,6 +64,11 @@ class FigureShape:
             raise ValueError
 
         self.__pose_count = len(self.__poses)
+
+        #Устанавливаем цвет фигуры
+        for pose in self.__poses:
+            for brick in pose:
+                brick.color = figure_color
 
         # Устанавливаем координаты фигуры
         self.set_xy(x, y)
@@ -111,3 +131,11 @@ class FigureShape:
             self.__cur_pose = 0
         return
 
+    def get_state(self):
+        pivot_xy = self.get_pivot_xy()
+        return FigureState(pivot_xy[0], pivot_xy[1], self.__cur_pose)
+
+    def set_from_state(self, figure_state: FigureState):
+        self.set_xy(figure_state.x, figure_state.y)
+        self.__cur_pose = figure_state.pose
+        return
